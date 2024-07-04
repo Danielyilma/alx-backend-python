@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 '''implementing function'''
 from typing import Sequence, Any, Union
 from types import NoneType

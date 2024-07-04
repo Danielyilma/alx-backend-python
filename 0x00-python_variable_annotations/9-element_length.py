@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 '''implementing element_length function'''
 from typing import Iterable, Tuple, Sequence, List
 
