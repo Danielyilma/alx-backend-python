@@ -2,7 +2,7 @@
 '''test for access_nested_map'''
 import unittest
 from parameterized import parameterized
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 from typing import Mapping, Sequence, Any
 from unittest.mock import patch, MagicMock
 
@@ -49,6 +49,30 @@ class TestGetJson(unittest.TestCase):
         mock_request.return_value = moke_response
         self.assertDictEqual(get_json(test_url), test_payload)
         mock_request.assert_called_once_with(test_url)
+
+
+class TestMemoize(unittest.TestCase):
+    '''testing memoization to a class function called TestClass.a_method'''
+
+    def test_memoize(self):
+        '''tests if the a_method is called more than once'''
+        class TestClass:
+            '''used to demonstrate the usage of the memoization'''
+            def a_method(self):
+                '''class method'''
+                return 42
+
+            @memoize
+            def a_property(self):
+                '''class attribute'''
+                return self.a_method()
+
+        with patch.object(TestClass, "a_method", return_value=42)\
+                as mock_memoize:
+            instance = TestClass()
+            self.assertEqual(instance.a_property, 42)
+            self.assertEqual(instance.a_property, 42)
+            mock_memoize.assert_called_once()
 
 
 if __name__ == "__main__":
