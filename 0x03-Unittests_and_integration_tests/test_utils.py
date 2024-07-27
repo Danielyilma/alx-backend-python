@@ -7,7 +7,7 @@ from typing import Mapping, Sequence, Any
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    '''test class for access_nested_map method'''
+    '''test class  for access_nested_map method'''
 
     @parameterized.expand([
         ({"a": 1}, ("a", ), 1),
