@@ -3,8 +3,8 @@
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map, get_json, memoize
-from typing import Mapping, Sequence, Any
-from unittest.mock import patch, MagicMock
+from typing import Mapping, Sequence, Any, Dict
+from unittest.mock import patch, MagicMock, Mock
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -39,7 +39,7 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False})
     ])
     @patch("requests.get")
-    def test_get_json(self, test_url, test_payload, mock_request):
+    def test_get_json(self, test_url: str, test_payload: Dict, mock_request: Mock) -> None:
         '''
             testing get_json that returns a json by requesting to the
             url passed as an argument
@@ -54,16 +54,16 @@ class TestGetJson(unittest.TestCase):
 class TestMemoize(unittest.TestCase):
     '''testing memoization to a class function called TestClass.a_method'''
 
-    def test_memoize(self):
+    def test_memoize(self) -> None:
         '''tests if the a_method is called more than once'''
         class TestClass:
             '''used to demonstrate the usage of the memoization'''
-            def a_method(self):
+            def a_method(self) -> int:
                 '''class method'''
                 return 42
 
             @memoize
-            def a_property(self):
+            def a_property(self) -> any:
                 '''class attribute'''
                 return self.a_method()
 
