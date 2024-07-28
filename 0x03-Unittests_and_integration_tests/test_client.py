@@ -70,12 +70,10 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False)
     ])
-    @patch("client.GithubOrgClient.has_license")
     def test_has_license(
-        self, repo, license_key, expected, mock_access_nested_map
+        self, repo, license_key, expected
     ):
         '''test haslicense static method'''
-        mock_access_nested_map.return_value = expected
         self.assertEqual(
             GithubOrgClient.has_license(repo, license_key),
             expected
