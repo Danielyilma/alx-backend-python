@@ -66,6 +66,21 @@ class TestGithubOrgClient(unittest.TestCase):
             )
             mock_get_json.assert_called_once()
 
+    @parameterized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", "my_license"),
+        ({"license": {"key": "other_license"}}, "my_license", "other_license")
+    ])
+    @patch("client.GithubOrgClient.has_license")
+    def test_has_license(
+        self, repo, license_key, expected, mock_access_nested_map
+    ):
+        '''test haslicense static method'''
+        mock_access_nested_map.return_value = expected
+        self.assertEqual(
+            GithubOrgClient.has_license(repo, license_key),
+            expected
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
