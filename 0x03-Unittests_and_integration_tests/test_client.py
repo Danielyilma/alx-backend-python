@@ -35,6 +35,37 @@ class TestGithubOrgClient(unittest.TestCase):
                 "www.example.com"
             )
 
+    @patch("client.get_json")
+    def test_public_repos(self, mock_get_json):
+        '''test public repos'''
+
+        public_url = "www.github.com"
+        mock_get_json.return_value = [
+            {
+                "name": {"url": "www.github.com"},
+                "license": {
+                    "licence given by": "MIT license",
+                    "key": "MIT123"
+                }
+            }
+        ]
+
+        with patch(
+            "client.GithubOrgClient._public_repos_url",
+            new_callable=PropertyMock
+        ) as mock_pub_repo_url:
+            mock_pub_repo_url.return_value = public_url
+            instance = GithubOrgClient("abc")
+            self.assertListEqual(
+                instance.public_repos(),
+                [{"url": public_url}]
+            )
+            self.assertListEqual(
+                instance.public_repos(),
+                [{"url": public_url}]
+            )
+            mock_get_json.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()
